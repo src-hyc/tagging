@@ -81,4 +81,55 @@ describe('Tagging', () => {
 		expect(result.tagSet).toEqual(expect.arrayContaining([ [ "tag2" ], [ "tag3" ] ]));
 		expect(result.tagSet.length).toEqual(2);
 	});
+
+	test('Find keys with tags', async () => {
+		// tag some tags
+		await tagger.tagKey("key4", [ "tag4" ]);
+
+		await tagger.tagKey("key5", [ "tag4" ]);
+		await tagger.tagKey("key5", [ "tag5" ]);
+
+		await tagger.tagKey("key6", [ "tag4" ]);
+		await tagger.tagKey("key6", [ "tag5" ]);
+		await tagger.tagKey("key6", [ "tag6" ]);
+
+		// find keys with different tags
+		let keys = await tagger.getKeysByTag([ "tag4" ]);
+		expect(keys).toEqual(expect.arrayContaining([ "key4", "key5", "key6" ]));
+		expect(keys.length).toEqual(3);
+
+		keys = await tagger.getKeysByTag([ "tag5" ]);
+		expect(keys).toEqual(expect.arrayContaining([ "key5", "key6" ]));
+		expect(keys.length).toEqual(2);
+
+		keys = await tagger.getKeysByTag([ "tag6" ]);
+		expect(keys).toEqual(expect.arrayContaining([ "key6" ]));
+		expect(keys.length).toEqual(1);
+	});
+
+	test('Tag, untag, and find together', async () => {
+		// tag a tag, then untag it
+		await tagger.tagKey("key7", [ "tag7" ]);
+		await tagger.untagKey("key7", [ "tag7" ]);
+		let keys = await tagger.getKeysByTag([ "tag7" ]);
+		expect(keys.length).toEqual(0);
+
+		// tag two keys, then untag one
+		await tagger.tagKey("key8", [ "tag8" ]);
+		await tagger.tagKey("key9", [ "tag8" ]);
+		await tagger.untagKey("key8", [ "tag8" ]);
+		keys = await tagger.getKeysByTag([ "tag8" ]);
+		expect(keys).toEqual(expect.arrayContaining([ "key9" ]));
+		expect(keys.length).toEqual(1);
+
+		// tag a key with two tags, then untag one
+		await tagger.tagKey("key10", [ "tag9" ]);
+		await tagger.tagKey("key10", [ "tag10" ]);
+		await tagger.untagKey("key10", [ "tag9" ]);
+		keys = await tagger.getKeysByTag([ "tag9" ]);
+		expect(keys.length).toEqual(0);
+		keys = await tagger.getKeysByTag([ "tag10" ]);
+		expect(keys).toEqual(expect.arrayContaining([ "key10" ]));
+		expect(keys.length).toEqual(1);
+	});
 });

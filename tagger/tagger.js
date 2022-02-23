@@ -43,4 +43,14 @@ export default class Tagger {
 		)
 		.then(() => {});
 	}
+
+	/**
+	 * Find keys with a given tag
+	 * @param {!Array<string>} tag Tag to be used to find keys
+	 * @return {!Promise<!Array<string>>} Resolves to keys with the given tag on success, rejects on failure
+	 */
+	async getKeysByTag(tag) {
+		return this.#collection.find({ "tagSet": tag }).toArray()
+		.then(result => result.map(document => document["_id"]));
+	}
 }
