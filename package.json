@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "@tagging/tagger": "file:tagger",
     "mongodb": "^4.4.0"
   },
   "devDependencies": {
@@ -11,8 +10,10 @@
     "mongodb-memory-server": "^8.4.0"
   },
   "main": "index.js",
+  "name": "@src-hyc/tagging",
   "scripts": {
     "test": "jest"
   },
-  "type": "module"
+  "type": "module",
+  "version": "0.1.0"
 }
