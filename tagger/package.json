@@ -1,0 +1,5 @@
+{
+  "name": "@tagging/tagger",
+  "main": "index.js",
+  "type": "module"
+}

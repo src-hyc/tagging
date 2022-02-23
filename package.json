@@ -1,5 +1,17 @@
 {
   "dependencies": {
+    "@tagging/tagger": "file:tagger",
     "mongodb": "^4.4.0"
-  }
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.5",
+    "@babel/preset-env": "^7.16.11",
+    "babel-jest": "^27.5.1",
+    "jest": "^27.5.1",
+    "mongodb-memory-server": "^8.4.0"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "type": "module"
 }
