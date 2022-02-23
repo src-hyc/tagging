@@ -16,4 +16,13 @@ export default class Tagger {
 			{ upsert: true },
 		);
 	}
+
+	async untagKey(key, tag) {
+		return this.#collection.updateOne(
+			{ "_id": key},
+			{
+				$pull: { "tagSet": tag },
+			},
+		);
+	}
 }
