@@ -7,7 +7,7 @@ Tagging is a tagging library with JavaScript and MongoDB.
 ```javascript
 const tagger = new Tagger(collection);
 
-tagger.tagKey("key", "tag");
+tagger.tagKey("key", [ "tag" ]);
 ```
 
 ## Contributing
