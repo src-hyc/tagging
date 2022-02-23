@@ -1,7 +1,7 @@
 import { MongoClient } from 'mongodb';
-import { Tagger } from '@tagging/tagger';
+import { Tagger } from './index.js';
 
-describe('Tagging', () => {
+describe('Tagger', () => {
 	let connection;
 	let collection;
 	let tagger;
