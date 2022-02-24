@@ -55,9 +55,9 @@ export default class Tagger {
 	}
 
 	/**
-	 * Find keys with a given tag
-	 * @param {!Array<string>} tag Tag to be used to find keys
-	 * @return {!Promise<!Array<string>>} Resolves to keys with the given tag on success, rejects on failure
+	 * Find keys with a given parent tag
+	 * @param {!Array<string>} parentTag Parent tag to be used to find keys
+	 * @return {!Promise<!Array<string>>} Resolves to keys with the given parent tag on success, rejects on failure
 	 */
 	async getKeysByParentTag(parentTag) {
 		return this.#collection.aggregate([
