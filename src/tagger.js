@@ -53,4 +53,35 @@ export default class Tagger {
 		return this.#collection.find({ "tagSet": tag }).toArray()
 		.then(result => result.map(document => document["_id"]));
 	}
+
+	/**
+	 * Find keys with a given tag
+	 * @param {!Array<string>} tag Tag to be used to find keys
+	 * @return {!Promise<!Array<string>>} Resolves to keys with the given tag on success, rejects on failure
+	 */
+	async getKeysByParentTag(parentTag) {
+		return this.#collection.aggregate([
+			{
+				$unwind: "$tagSet",
+			},
+			{
+				$project: {
+					"tagSet": {
+						$slice: [ "$tagSet", parentTag.length ],
+					},
+				},
+			},
+			{
+				$match: {
+					"tagSet": parentTag,
+				},
+			},
+			{
+				$group: {
+					"_id": "$_id",
+				},
+			},
+		]).toArray()
+		.then(result => result.map(document => document["_id"]));
+	}
 }
