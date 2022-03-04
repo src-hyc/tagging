@@ -177,4 +177,20 @@ describe('Tagger', () => {
 		keys = await tagger.getKeysByParentTag([ "tag_parent2", "tag_child3" ]);
 		expect(keys.length).toEqual(0);
 	});
+
+	test('String tags', async() => {
+		// tag a key by string
+		await tagger.tagKey("key16", "tag11");
+		let keys = await tagger.getKeysByTag([ "tag11" ]);
+		expect(keys).toEqual([ "key16" ]);
+		keys = await tagger.getKeysByTag("tag11");
+		expect(keys).toEqual([ "key16" ]);
+
+		// tag a key by string of tag with levels
+		await tagger.tagKey("key17", "tag_level1/tag_level2/tag_level3");
+		keys = await tagger.getKeysByParentTag("tag_level1/tag_level2");
+		expect(keys).toEqual([ "key17" ]);
+		keys = await tagger.getKeysByParentTag([ "tag_level1", "tag_level2" ]);
+		expect(keys).toEqual([ "key17" ]);
+	});
 });
