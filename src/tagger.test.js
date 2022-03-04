@@ -132,4 +132,65 @@ describe('Tagger', () => {
 		expect(keys).toEqual(expect.arrayContaining([ "key10" ]));
 		expect(keys.length).toEqual(1);
 	});
+
+	test('Tag with levels', async () => {
+		// a key with a tag of two levels
+		await tagger.tagKey("key11", [ "tag_parent", "tag_child" ]);
+		let result = await collection.findOne({ "_id": "key11" });
+		expect(result).toEqual({ "_id": "key11", "tagSet": [ [ "tag_parent", "tag_child" ] ] });
+
+		let keys = await tagger.getKeysByParentTag([ "tag_parent" ]);
+		expect(keys).toEqual(expect.arrayContaining([ "key11" ]));
+		expect(keys.length).toEqual(1);
+
+		// another key with the same tag
+		await tagger.tagKey("key12", [ "tag_parent", "tag_child" ]);
+		keys = await tagger.getKeysByParentTag([ "tag_parent" ]);
+		expect(keys).toEqual(expect.arrayContaining([ "key11", "key12" ]));
+		expect(keys.length).toEqual(2);
+
+		// a key with two tags having a same parent
+		await tagger.tagKey("key13", [ "tag_parent1", "tag_child1" ]);
+		await tagger.tagKey("key13", [ "tag_parent1", "tag_child2" ]);
+		keys = await tagger.getKeysByParentTag([ "tag_parent1" ]);
+		expect(keys).toEqual(expect.arrayContaining([ "key13" ]));
+		expect(keys.length).toEqual(1);
+
+		// different numbers of levels
+		await tagger.tagKey("key14", [ "tag_parent1" ]);
+		keys = await tagger.getKeysByParentTag([ "tag_parent1" ]);
+		expect(keys).toEqual(expect.arrayContaining([ "key13", "key14" ]));
+		expect(keys.length).toEqual(2);
+
+		// parents with and without children
+		await tagger.tagKey("key15", [ "tag_parent2", "tag_child_3" ]);
+		await tagger.tagKey("key15", [ "tag_parent2" ]);
+		keys = await tagger.getKeysByParentTag([ "tag_parent2" ]);
+		expect(keys).toEqual(expect.arrayContaining([ "key15" ]));
+		expect(keys.length).toEqual(1);
+		await tagger.untagKey("key15", [ "tag_parent2", "tag_child3" ]);
+		await tagger.tagKey("key15", [ "tag_parent2" ]);
+		keys = await tagger.getKeysByParentTag([ "tag_parent2" ]);
+		expect(keys).toEqual(expect.arrayContaining([ "key15" ]));
+		expect(keys.length).toEqual(1);
+		await tagger.tagKey("key15", [ "tag_parent2" ]);
+		keys = await tagger.getKeysByParentTag([ "tag_parent2", "tag_child3" ]);
+		expect(keys.length).toEqual(0);
+	});
+
+	test('String tags', async() => {
+		// tag a key by string
+		await tagger.tagKey("key16", "tag11");
+		let keys = await tagger.getKeysByTag([ "tag11" ]);
+		expect(keys).toEqual([ "key16" ]);
+		keys = await tagger.getKeysByTag("tag11");
+		expect(keys).toEqual([ "key16" ]);
+
+		// tag a key by string of tag with levels
+		await tagger.tagKey("key17", "tag_level1/tag_level2/tag_level3");
+		keys = await tagger.getKeysByParentTag("tag_level1/tag_level2");
+		expect(keys).toEqual([ "key17" ]);
+		keys = await tagger.getKeysByParentTag([ "tag_level1", "tag_level2" ]);
+		expect(keys).toEqual([ "key17" ]);
+	});
 });

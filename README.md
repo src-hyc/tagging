@@ -19,6 +19,12 @@ const tagger = new Tagger(collection);
 
 tagger.tagKey("key", [ "tag" ]);
 tagger.getKeysByTag([ "tag" ]); // returns [ "key" ]
+
+tagger.tagKey("key2", [ "tag_parent", "tag_child" ]);
+tagger.getKeysByParentTag([ "tag_parent" ]); // returns [ "key2" ]
+
+// can also parse strings into tag of arrays
+tagger.getKeysByTag("tag_parent/tag_child"); // returns [ "key2" ]
 ```
 
 ## Contributing
