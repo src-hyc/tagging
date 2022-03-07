@@ -18,7 +18,6 @@ export default class Tagger {
 	 * @param {string} key Key to be tagged on
 	 * @param {!Array<string> | string} tag Tag to be tagged
 	 * @return {!Promise<undefined>} Resolves on success, rejects on failure
-	 * @throws {Error} Tag is invalid
 	 */
 	async tagKey(key, tag) {
 		if (typeof tag === "string") {
@@ -39,7 +38,6 @@ export default class Tagger {
 	 * @param {string} key Key to be untagged from
 	 * @param {!Array<string> | string} tag Tag to be untagged
 	 * @return {!Promise<undefined>} Resolves on success, rejects on failure
-	 * @throws {Error} Tag is invalid
 	 */
 	async untagKey(key, tag) {
 		if (typeof tag === "string") {
@@ -58,7 +56,6 @@ export default class Tagger {
 	 * Find keys with a given tag
 	 * @param {!Array<string> | string} tag Tag to be used to find keys
 	 * @return {!Promise<!Array<string>>} Resolves to keys with the given tag on success, rejects on failure
-	 * @throws {Error} Tag is invalid
 	 */
 	async getKeysByTag(tag) {
 		if (typeof tag === "string") {
@@ -72,7 +69,6 @@ export default class Tagger {
 	 * Find keys with a given parent tag
 	 * @param {!Array<string> | string} parentTag Parent tag to be used to find keys
 	 * @return {!Promise<!Array<string>>} Resolves to keys with the given parent tag on success, rejects on failure
-	 * @throws {Error} Tag is invalid
 	 */
 	async getKeysByParentTag(parentTag) {
 		if (typeof parentTag === "string") {
