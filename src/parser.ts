@@ -1,4 +1,8 @@
-function readTagLevel(tagString, begin) {
+import type { Tag } from './tagger';
+
+type Token = { type: "separator" } | { type: "level", value: string };
+
+function readTagLevel(tagString: string, begin: number) {
 	let nextBegin = begin;
 	while (nextBegin < tagString.length && tagString[nextBegin] != '/') {
 		nextBegin++;
@@ -6,36 +10,38 @@ function readTagLevel(tagString, begin) {
 	return { value: tagString.substring(begin, nextBegin), nextBegin };
 }
 
-function lex(tagString) {
+function lex(tagString: string): Array<Token> {
 	let index = 0;
-	let token = [];
+	const token: Array<Token> = [];
 	while (index < tagString.length) {
 		switch (tagString[index]) {
-			case '/':
+			case '/': {
 				token.push({ type: "separator" });
-				index++
+				index++;
 				break;
-			default:
-				let { value, nextBegin } = readTagLevel(tagString, index);
+			}
+			default: {
+				const { value, nextBegin } = readTagLevel(tagString, index);
 				index = nextBegin;
 				token.push({ type: "level", value });
 				break;
+			}
 		}
 	}
 	return token;
 }
 
-function parse(tokenList) {
+function parse(tokenList: Array<Token>): Tag {
 	if (tokenList.length === 0) {
 		throw new Error("Empty tag");
 	}
 	let index = 0;
-	let tag = [];
-	let expect = "level";
+	const tag: Tag = [];
+	let expect: "level" | "separator" = "level";
 	do {
-		let token = tokenList[index];
+		const token = tokenList[index];
 		switch (expect) {
-			case "level":
+			case "level": {
 				if (token.type !== "level") {
 					throw new Error(`Unexpected token ${token.type}`);
 				}
@@ -43,13 +49,15 @@ function parse(tokenList) {
 				expect = "separator";
 				index++;
 				break;
-			case "separator":
+			}
+			case "separator": {
 				if (token.type !== "separator") {
-					throw new Error(`Unexpected token ${token.type}`);
+					throw new Error("Unexpected token");
 				}
 				expect = "level";
 				index++;
 				break;
+			}
 		}
 	} while (index < tokenList.length);
 	return tag;
@@ -57,9 +65,10 @@ function parse(tokenList) {
 
 /**
  * Parse a tag from string
- * @param {string} tagString The string to be parsed
- * @return {!Array<string>} Parsed tag
+ * @param tagString The string to be parsed
+ * @return Parsed tag
+ * @throws {Error} Invalid tag
  */
-export function parseTag(tagString) {
+export function parseTag(tagString: string): Tag {
 	return parse(lex(tagString));
 }
