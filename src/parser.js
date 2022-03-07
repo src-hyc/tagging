@@ -59,6 +59,7 @@ function parse(tokenList) {
  * Parse a tag from string
  * @param {string} tagString The string to be parsed
  * @return {!Array<string>} Parsed tag
+ * @throws {Error} Invalid tag
  */
 export function parseTag(tagString) {
 	return parse(lex(tagString));

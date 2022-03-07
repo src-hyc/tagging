@@ -11,3 +11,15 @@ test('Parse a tag of 2 levels', () => {
 test('Parse a tag of 3 levels', () => {
 	expect(parseTag("tag_level1/tag_level2/tag_level3")).toEqual([ "tag_level1", "tag_level2", "tag_level3" ]);
 });
+
+test('Invalid syntax', () => {
+	// empty tag
+	expect(() => {
+		parseTag("");
+	}).toThrow();
+
+	// continuous separator
+	expect(() => {
+		parseTag("//");
+	}).toThrow();
+});
