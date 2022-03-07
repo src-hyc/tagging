@@ -1,4 +1,4 @@
-import { parseTag } from './parser.js';
+import { parseTag } from './parser.ts';
 
 test('Parse a tag of 1 level', () => {
 	expect(parseTag("tag")).toEqual([ "tag" ]);

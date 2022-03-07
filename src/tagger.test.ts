@@ -1,9 +1,10 @@
+import type { Collection } from 'mongodb';
 import { MongoClient } from 'mongodb';
-import { Tagger } from './index.js';
+import { default as Tagger } from './tagger.ts';
 
 describe('Tagger', () => {
 	let connection;
-	let collection;
+	let collection: Collection;
 	let tagger;
 
 	beforeAll(async () => {
@@ -20,7 +21,7 @@ describe('Tagger', () => {
 
 	test('Tag a key', async () => {
 		await tagger.tagKey("key", [ "tag" ]);
-		let result = await collection.findOne({ "_id": "key" });
+		const result = await collection.findOne({ "_id": "key" });
 		expect(result).toEqual({ "_id": "key", "tagSet": [ [ "tag" ] ] });
 	});
 
@@ -136,7 +137,7 @@ describe('Tagger', () => {
 	test('Tag with levels', async () => {
 		// a key with a tag of two levels
 		await tagger.tagKey("key11", [ "tag_parent", "tag_child" ]);
-		let result = await collection.findOne({ "_id": "key11" });
+		const result = await collection.findOne({ "_id": "key11" });
 		expect(result).toEqual({ "_id": "key11", "tagSet": [ [ "tag_parent", "tag_child" ] ] });
 
 		let keys = await tagger.getKeysByParentTag([ "tag_parent" ]);
