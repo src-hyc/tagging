@@ -17,8 +17,13 @@
   "files": [
     "lib"
   ],
+  "keywords": [
+    "tag",
+    "tagging"
+  ],
   "main": "lib/index.js",
   "name": "@src-hyc/tagging",
+  "repository": "github:src-hyc/tagging",
   "scripts": {
     "test": "jest",
     "build": "tsc",
