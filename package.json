@@ -27,7 +27,8 @@
   "scripts": {
     "test": "jest",
     "build": "tsc",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "prepublishOnly": "tsc"
   },
   "type": "module",
   "types": "lib/index.d.ts",
