@@ -17,14 +17,20 @@
   "files": [
     "lib"
   ],
+  "keywords": [
+    "tag",
+    "tagging"
+  ],
   "main": "lib/index.js",
   "name": "@src-hyc/tagging",
+  "repository": "github:src-hyc/tagging",
   "scripts": {
     "test": "jest",
     "build": "tsc",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "prepublishOnly": "tsc"
   },
   "type": "module",
   "types": "lib/index.d.ts",
-  "version": "0.1.2"
+  "version": "0.1.3"
 }
