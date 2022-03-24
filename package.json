@@ -15,7 +15,8 @@
     "typescript": "^4.6.2"
   },
   "files": [
-    "lib"
+    "lib",
+    "LICENSE"
   ],
   "keywords": [
     "tag",
