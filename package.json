@@ -15,13 +15,13 @@
     "typescript": "^4.6.2"
   },
   "files": [
-    "lib",
-    "LICENSE"
+    "lib"
   ],
   "keywords": [
     "tag",
     "tagging"
   ],
+  "license": "MIT",
   "main": "lib/index.js",
   "name": "@src-hyc/tagging",
   "repository": "github:src-hyc/tagging",
@@ -33,5 +33,5 @@
   },
   "type": "module",
   "types": "lib/index.d.ts",
-  "version": "0.1.5"
+  "version": "0.1.6"
 }
